@@ -4,7 +4,7 @@ void settings() {
 void setup() {
 }
 void draw() {
-  background(255, 255, 255);
+  background(random(255), random(255), random(255));
   My3DPoint eye = new My3DPoint(0, 0, -5000);
   My3DPoint origin = new My3DPoint(0, 0, 0);
   My3DBox input3DBox = new My3DBox(origin, 100, 150, 300);
