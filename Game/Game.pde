@@ -6,14 +6,16 @@ void setup() {
 }
 float angleX = 0;
 float angleZ = 0;
-float valueX = 250;
-float valueZ = 250;
+float valueX;
+float valueZ;
 float change = 1;
 
 void draw() {
   background(200);
   lights();
   translate(width/2, height/2, 0);
+  valueX = width/2.0;
+  valueZ = height/2.0;
   fill(150);
   
   if(valueX < 0) {
