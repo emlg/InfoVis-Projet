@@ -1,21 +1,26 @@
 void settings() {
   size(500, 500, P3D);
 }
+
+float valueX;
+float valueZ;
+
 void setup() {
   noStroke();
+  pushMatrix();
+  translate(width/2, height/2, 0);
+  valueX = width/2.0;
+  valueZ = height/2.0;
+  popMatrix();
 }
 float angleX = 0;
 float angleZ = 0;
-float valueX;
-float valueZ;
 float change = 1;
 
 void draw() {
   background(200);
   lights();
   translate(width/2, height/2, 0);
-  valueX = width/2.0;
-  valueZ = height/2.0;
   fill(150);
   
   if(valueX < 0) {
