@@ -20,8 +20,6 @@ void setup() {
 float angleX = 0;
 float angleZ = 0;
 float change = 1;
-PVector bottomLeft;
-PVector upRight;
 
 void draw() {
   background(200);
@@ -41,10 +39,9 @@ void draw() {
   angleX = map(valueX, 0, height, PI/6, -PI/6);
   angleZ = map(valueZ, 0 , width, -PI/6, PI/6);
   pushMatrix();
-  rotateX(PI/2);
   rotateX(angleX);
-  rotateY(angleZ);
-  box(100, 100, 10);
+  rotateZ(angleZ);
+  box(100, 10, 100);
   pushMatrix();
   ball.update(angleZ, angleX);
   ball.checkEdges();

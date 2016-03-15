@@ -29,7 +29,7 @@ class Mover {
     fill(100,0,0);
     r = 10;
     pushMatrix();
-    translate(location.x, location.y, 5+r);
+    translate(location.x, -5-r, location.y);
     sphere(r);
     popMatrix();
   }
