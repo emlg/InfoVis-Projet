@@ -16,7 +16,7 @@ class Mover {
     
   }
   void update(float angleZ, float angleX) {
-    gravity = new PVector(sin(angleZ)*gravityCst, sin(angleX)*gravityCst);
+    gravity = new PVector(sin(angleZ)*gravityCst, -sin(angleX)*gravityCst);
     friction = velocity.copy();
     friction.mult(-1);
     friction.normalize();
