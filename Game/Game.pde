@@ -4,18 +4,24 @@ void settings() {
 
 float valueX;
 float valueZ;
+Mover ball;
 
 void setup() {
   noStroke();
+  ball = new Mover();
   pushMatrix();
   translate(width/2, height/2, 0);
   valueX = width/2.0;
   valueZ = height/2.0;
   popMatrix();
 }
+
+
 float angleX = 0;
 float angleZ = 0;
 float change = 1;
+PVector bottomLeft;
+PVector upRight;
 
 void draw() {
   background(200);
@@ -32,13 +38,19 @@ void draw() {
   } else if (valueZ > width){
     valueZ = width;
   }
-  angleX = map(valueX, 0, height, -PI/6, PI/6);
+  angleX = map(valueX, 0, height, PI/6, -PI/6);
   angleZ = map(valueZ, 0 , width, -PI/6, PI/6);
+  pushMatrix();
   rotateX(PI/2);
   rotateX(angleX);
   rotateY(angleZ);
   box(100, 100, 10);
-
+  pushMatrix();
+  ball.update(angleZ, angleX);
+  ball.checkEdges();
+  ball.display();
+  popMatrix();
+  popMatrix();
 }
 
 
