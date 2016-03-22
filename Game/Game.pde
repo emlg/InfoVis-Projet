@@ -1,10 +1,19 @@
 void settings() {
   size(500, 500, P3D);
 }
+//dimensions de la box
+float boxX = 100;
+float boxY = 10;
+float boxZ = 100;
 
 float valueX;
 float valueZ;
+float angleX = 0;
+float angleZ = 0;
+float change = 1;
 Mover ball;
+boolean shiftMode = false;
+ArrayList<PVector> cylinders = new ArrayList<PVector>();
 
 void setup() {
   noStroke();
@@ -16,53 +25,35 @@ void setup() {
   popMatrix();
 }
 
-
-float angleX = 0;
-float angleZ = 0;
-float change = 1;
-
 void draw() {
   background(200);
   lights();
   translate(width/2, height/2, 0);
   fill(150);
+  //Cylinder newCylinder = new Cylinder();
+  //newCylinder.display(0, - 5 - Cylinder.cylinderBaseSize, 0);
   
-  if(valueX < 0) {
-    valueX =0;
-  } else if (valueX > height) {
-    valueX = height;
-  } else if (valueZ <0){
-    valueZ = 0;
-  } else if (valueZ > width){
-    valueZ = width;
+  if(!shiftMode){
+    pushMatrix();
+    rotateX(angleX);
+    rotateZ(angleZ);
+    box(boxX, boxY, boxZ);
+    
+    for(int i = 0; i < cylinders.size(); i++){
+      Cylinder newCylinder = new Cylinder();
+      newCylinder.display(cylinders.get(i).x, boxY/2, cylinders.get(i).y);
+      println("x : " + cylinders.get(i).x + " y : "+  cylinders.get(i).y);
+    }
+    
+    pushMatrix();
+    ball.update(angleZ, angleX);
+    ball.checkEdges();
+    ball.display();
+    popMatrix();
+    
+    popMatrix();
+  } else {
+    box(boxX, boxZ, boxY);
   }
-  angleX = map(valueX, 0, height, PI/6, -PI/6);
-  angleZ = map(valueZ, 0 , width, -PI/6, PI/6);
-  pushMatrix();
-  rotateX(angleX);
-  rotateZ(angleZ);
-  box(100, 10, 100);
-  pushMatrix();
-  ball.update(angleZ, angleX);
-  ball.checkEdges();
-  ball.display();
-  popMatrix();
-  popMatrix();
-}
-
-
-void mouseDragged(){
-   valueZ += (mouseX- pmouseX) *change;
-   valueX += (mouseY- pmouseY) *change;
-}
-
-void mouseWheel(MouseEvent event) {
-  change += event.getCount();
-  change = change*0.1;
-  if(change > 1.5) {
-     change = 1.5;
-  } else if (change < 0.2){
-    change = 0.2;
-  }
-  println(change);
+  
 }
