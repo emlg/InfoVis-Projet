@@ -26,8 +26,8 @@ Cylinder(){
   openCylinder.beginShape(QUAD_STRIP);
   //draw the border of the cylinder
   for(int i = 0; i < x.length; i++) {
-    openCylinder.vertex(x[i], y[i] , 0);
-    openCylinder.vertex(x[i], y[i], cylinderHeight);
+    openCylinder.vertex(x[i], 0 , y[i]);
+    openCylinder.vertex(x[i], cylinderHeight,y[i] );
   }
   openCylinder.endShape();
   
@@ -35,9 +35,9 @@ Cylinder(){
   closeBottom.beginShape(TRIANGLES);
   //close bottom of the cylinder
   for(int i = 0; i < x.length; i++){
-    closeBottom.vertex(x[i], y[i], 0);
+    closeBottom.vertex(x[i], 0, y[i]);
     closeBottom.vertex(0,0, 0);
-    closeBottom.vertex(x[(i+1)% x.length], y[(i+1) % x.length], 0);
+    closeBottom.vertex(x[(i+1)% x.length], 0, y[(i+1) % x.length]);
   }
   closeBottom.endShape();
   
@@ -45,17 +45,16 @@ Cylinder(){
   closeUp.beginShape(TRIANGLES);
   //close the upper circle of cylinder
   for(int i = 0; i <x.length; i++){
-    closeUp.vertex(x[i], y[i], cylinderHeight);
-    closeUp.vertex(0,0, cylinderHeight);
-    closeUp.vertex(x[(i+1)% x.length], y[(i+1) % x.length], cylinderHeight);
+    closeUp.vertex(x[i], cylinderHeight,y[i] );
+    closeUp.vertex(0,cylinderHeight, 0);
+    closeUp.vertex(x[(i+1)% x.length], cylinderHeight, y[(i+1) % x.length]);
   }
   closeUp.endShape();
 }
 
 void display(float x, float y, float z){
   pushMatrix();
-  rotateX(PI/2);
-  translate(x-width/2, y- cylinderHeight/2f, z-height/2 );
+  translate(x-width/2, y - cylinderHeight, z-height/2 );
   shape(openCylinder);
   shape(closeBottom);
   shape(closeUp);
