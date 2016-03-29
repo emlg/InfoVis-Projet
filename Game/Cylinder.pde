@@ -1,7 +1,7 @@
 class Cylinder{
 
-static final float cylinderBaseSize = 10;
-static final float cylinderHeight = 10;
+static final float cylinderBaseSize = 8;
+static final float cylinderHeight = 25;
 static final int cylinderResolution = 8;
 PShape openCylinder;
 PShape closeBottom;
@@ -54,12 +54,14 @@ Cylinder(){
 
 void display(float x, float y, float z){
   pushMatrix();
-  translate(x-width/2, y - cylinderHeight, z-height/2 );
+  translate(x, y, z);
+  if(shiftMode) {
+    rotateX(PI/2);
+  }
   shape(openCylinder);
   shape(closeBottom);
   shape(closeUp);
   popMatrix();
 }
-
 
 }

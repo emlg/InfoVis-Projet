@@ -2,9 +2,9 @@ void settings() {
   size(500, 500, P3D);
 }
 //dimensions de la box
-float boxX = 100;
+float boxX = 200;
 float boxY = 10;
-float boxZ = 100;
+float boxZ = 200;
 
 float valueX;
 float valueZ;
@@ -37,17 +37,24 @@ void draw() {
     rotateZ(angleZ);
     box(boxX, boxY, boxZ);   
     for(int i = 0; i < cylinders.size(); i++){
+        fill(250, 160,25);
       Cylinder newCylinder = new Cylinder();
-      newCylinder.display(cylinders.get(i).x, -boxY/2, cylinders.get(i).y);
+      newCylinder.display(cylinders.get(i).x -width/2, -boxY/2- Cylinder.cylinderHeight, cylinders.get(i).y - height/2);
     }
     pushMatrix();
     ball.update(angleZ, angleX);
     ball.checkEdges();
+    ball.checkCylinderCollision();
     ball.display();
     popMatrix();
     popMatrix();
   } else {
     box(boxX, boxZ, boxY);
+    for(int i = 0; i < cylinders.size(); i++){
+      fill(250, 160,25);
+      Cylinder newCylinder = new Cylinder();
+      newCylinder.display(cylinders.get(i).x -width/2, cylinders.get(i).y - height/2, boxY/2);
+    }
   }
   
 }

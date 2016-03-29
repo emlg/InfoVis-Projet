@@ -7,7 +7,7 @@ class Mover {
   float r;
   float gravityCst = 0.9;
   float normalForce =1;
-  float mu = 0.1;
+  float mu = 0.15;
   float frictionMagnitude = normalForce*mu;
   
   Mover() {
@@ -29,27 +29,43 @@ class Mover {
     fill(100,0,0);
     r = 10;
     pushMatrix();
-    translate(location.x, -5-r, location.y);
+    translate(location.x, -boxY/2-r, location.y);
     sphere(r);
     popMatrix();
   }
   
   void checkEdges() {
-    if (location.x > 50 - r/2) {
-      location.x = 50 -r/2;
+    if (location.x > boxX/2 - r/2) {
+      location.x = boxX/2 -r/2;
       velocity.x = -1*velocity.x;
     }
-    else if (location.x < r/2 -50 ) {
-      location.x = r/2- 50;
+    else if (location.x < r/2 - boxX/2 ) {
+      location.x = r/2- boxX/2;
       velocity.x = -1*velocity.x;
     }
-    if (location.y > 50- r/2) {
-      location.y = 50- r/2;
+    if (location.y > boxZ/2- r/2) {
+      location.y = boxZ/2 - r/2;
       velocity.y = -1*velocity.y;
     }
-    else if (location.y < r/2 - 50) {
-      location.y = r/2 - 50;
+    else if (location.y < r/2 - boxZ/2) {
+      location.y = r/2 - boxZ/2;
       velocity.y = -1*velocity.y;
     }
   }
+  
+  void checkCylinderCollision(){
+    for(int i =0; i < cylinders.size(); i++){
+      PVector tmpL = location.copy();
+      PVector cyl = new PVector(cylinders.get(i).x - width/2, cylinders.get(i).y - height/2);
+      if(cyl.dist(location) <= r + Cylinder.cylinderBaseSize){
+        PVector tmpV = velocity.copy();
+        PVector n = (location.sub(cyl)).normalize();
+        n = n.mult(2*tmpV.dot(n));
+        velocity = tmpV.sub(n);
+        location = tmpL.add(velocity);
+      }
+    }
+    
+  }
+  
 }
