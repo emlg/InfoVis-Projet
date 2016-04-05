@@ -11,18 +11,36 @@ float valueZ;
 float angleX = 0;
 float angleZ = 0;
 float change = 1;
+
 Mover ball;
 boolean shiftMode = false;
 ArrayList<PVector> cylinders = new ArrayList<PVector>();
 
+PGraphics bottomSquare;
+int bottomSquareHeight = 100;
+PGraphics topView;
+int border = 5;
+int topViewSize = bottomSquareHeight - 2*border;
+float score = 0;
+PGraphics scoreBoard;
+int scoreBoardSize = topViewSize;
+PGraphics barChart;
+int barChartHeight = bottomSquareHeight - 4*border;
+int barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
+
+
 void setup() {
   noStroke();
   ball = new Mover();
+  bottomSquare = createGraphics(width, bottomSquareHeight, P2D);
+  topView = createGraphics(topViewSize, topViewSize, P2D);
+  scoreBoard = createGraphics(scoreBoardSize, scoreBoardSize, P2D);
+  barChart = createGraphics(barChartWidth, barChartHeight, P2D);
   pushMatrix();
   translate(width/2, height/2, 0);
   valueX = width/2.0;
   valueZ = height/2.0;
-  popMatrix();
+  popMatrix(); 
 }
 
 void draw() {
@@ -32,6 +50,18 @@ void draw() {
   fill(150);
  
   if(!shiftMode){
+    pushMatrix();
+    translate(-width/2, height/2 -bottomSquareHeight,0);
+    drawBottomSquare();
+    image(bottomSquare, 0,0);
+    drawTopView();
+    image(topView, border, border);
+    drawScoreBoard();
+    image(scoreBoard, 2*border + topViewSize, border);
+    drawBarChart();
+    image(barChart, 3*border + topViewSize + scoreBoardSize, border);
+    popMatrix();
+    
     pushMatrix();
     rotateX(angleX);
     rotateZ(angleZ);
