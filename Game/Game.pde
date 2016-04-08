@@ -24,8 +24,9 @@ int topViewSize = bottomSquareHeight - 2*border;
 float score = 0;
 PGraphics scoreBoard;
 int scoreBoardSize = topViewSize;
+
 PGraphics barChart;
-int barChartHeight = bottomSquareHeight - 4*border;
+int barChartHeight = bottomSquareHeight - 3*border;
 int barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
 
 
@@ -58,8 +59,8 @@ void draw() {
     image(topView, border, border);
     drawScoreBoard();
     image(scoreBoard, 2*border + topViewSize, border);
-    drawBarChart();
-    image(barChart, 3*border + topViewSize + scoreBoardSize, border);
+    //drawBarChart();
+    //image(barChart, 3*border + topViewSize + scoreBoardSize, border);
     popMatrix();
     
     pushMatrix();
