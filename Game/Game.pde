@@ -29,6 +29,7 @@ PGraphics barChart;
 int barChartHeight = bottomSquareHeight - 3*border;
 int barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
 
+HScrollbar scrollBar;
 
 void setup() {
   noStroke();
@@ -41,7 +42,9 @@ void setup() {
   translate(width/2, height/2, 0);
   valueX = width/2.0;
   valueZ = height/2.0;
-  popMatrix(); 
+  popMatrix();
+  scrollBar = new HScrollbar(3*border + topViewSize + scoreBoardSize, height -2*border, barChartWidth, border);
+  
 }
 
 void draw() {
@@ -62,13 +65,15 @@ void draw() {
     //drawBarChart();
     //image(barChart, 3*border + topViewSize + scoreBoardSize, border);
     popMatrix();
+    scrollBar.update();
+    scrollBar.display();
     
     pushMatrix();
     rotateX(angleX);
     rotateZ(angleZ);
     box(boxX, boxY, boxZ);   
     for(int i = 0; i < cylinders.size(); i++){
-        fill(250, 160,25);
+      fill(250, 160,25);
       Cylinder newCylinder = new Cylinder();
       newCylinder.display(cylinders.get(i).x -width/2, -boxY/2- Cylinder.cylinderHeight, cylinders.get(i).y - height/2);
     }

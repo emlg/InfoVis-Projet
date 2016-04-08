@@ -38,17 +38,17 @@ class Mover {
     if (location.x > boxX/2 - r/2) {
       location.x = boxX/2 -r/2;
       velocity.x = -1*velocity.x;
-      score -= ball.velocity.mag();
+      score -= round2(ball.velocity.mag());
     }
     else if (location.x < r/2 - boxX/2 ) {
       location.x = r/2- boxX/2;
       velocity.x = -1*velocity.x;
-      score -= ball.velocity.mag();
+      score -= round2(ball.velocity.mag());
     }
     if (location.y > boxZ/2- r/2) {
       location.y = boxZ/2 - r/2;
       velocity.y = -1*velocity.y;
-      score -= ball.velocity.mag();
+      score -= round2(ball.velocity.mag());
     }
     else if (location.y < r/2 - boxZ/2) {
       location.y = r/2 - boxZ/2;
@@ -62,7 +62,7 @@ class Mover {
       PVector tmpL = location.copy();
       PVector cyl = new PVector(cylinders.get(i).x - width/2, cylinders.get(i).y - height/2);
       if(cyl.dist(location) <= r + Cylinder.cylinderBaseSize){
-        score += ball.velocity.mag();
+        score += round2(ball.velocity.mag());
         PVector tmpV = velocity.copy();
         PVector n = (location.sub(cyl)).normalize();
         n = n.mult(2*tmpV.dot(n));

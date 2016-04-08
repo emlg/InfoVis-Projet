@@ -29,7 +29,7 @@ void drawScoreBoard(){
   pushMatrix();
   scoreBoard.noFill();
   scoreBoard.rect(0,0, scoreBoardSize, scoreBoardSize);
-  scoreBoard.text("Total Score:\n" + score + "\nvelocity: \n" + ball.velocity.mag(), 3, border + 5);
+  scoreBoard.text("Total Score:\n" + score + "\nvelocity: \n" + round2(ball.velocity.mag()), 3, border + 5);
   popMatrix();
   scoreBoard.endDraw();
 }
@@ -41,8 +41,8 @@ void drawBarChart(){
   ArrayList<Integer> barChartValues = new ArrayList<Integer>();
   
   float playerMax = 0;
-  int maxBarHeight = barChartWidth - 3;
-  int barWidth = 5;
+  int maxBarHeight = barChartHeight - 3;
+  int barWidth = (int) (5*scrollBar.getPos());
   float barHeight = 0;
  
   barChart.beginDraw();
