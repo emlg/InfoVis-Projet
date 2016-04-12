@@ -65,7 +65,9 @@ void draw() {
     //drawBarChart();
     //image(barChart, 3*border + topViewSize + scoreBoardSize, border);
     popMatrix();
-    scrollBar.update();
+    if(mouseY > height - bottomSquareHeight) {
+      scrollBar.update();
+    }
     scrollBar.display();
     
     pushMatrix();
