@@ -53,7 +53,7 @@ class Mover {
     else if (location.y < r/2 - boxZ/2) {
       location.y = r/2 - boxZ/2;
       velocity.y = -1*velocity.y;
-      score -= ball.velocity.mag();
+      score -= round2(ball.velocity.mag());
     }
   }
   

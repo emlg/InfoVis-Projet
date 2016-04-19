@@ -27,7 +27,7 @@ int scoreBoardSize = topViewSize;
 
 PGraphics barChart;
 int barChartHeight = bottomSquareHeight - 3*border;
-int barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
+int barChartWidth;
 
 HScrollbar scrollBar;
 
@@ -37,6 +37,7 @@ void setup() {
   bottomSquare = createGraphics(width, bottomSquareHeight, P2D);
   topView = createGraphics(topViewSize, topViewSize, P2D);
   scoreBoard = createGraphics(scoreBoardSize, scoreBoardSize, P2D);
+  barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
   barChart = createGraphics(barChartWidth, barChartHeight, P2D);
   pushMatrix();
   translate(width/2, height/2, 0);
@@ -62,8 +63,8 @@ void draw() {
     image(topView, border, border);
     drawScoreBoard();
     image(scoreBoard, 2*border + topViewSize, border);
-    //drawBarChart();
-    //image(barChart, 3*border + topViewSize + scoreBoardSize, border);
+    drawBarChart();
+    image(barChart, 3*border + topViewSize + scoreBoardSize, border);
     popMatrix();
     if(mouseY > height - bottomSquareHeight) {
       scrollBar.update();

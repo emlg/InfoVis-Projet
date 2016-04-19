@@ -34,18 +34,20 @@ void drawScoreBoard(){
   scoreBoard.endDraw();
 }
 
-void drawBarChart(){
-  //selecting the values and store
-  int count = 0;
+int count = 0;
+ArrayList<Integer> barChartValues = new ArrayList<Integer>();
   int maxNb = 40;
-  ArrayList<Integer> barChartValues = new ArrayList<Integer>();
-  
   float playerMax = 0;
   int maxBarHeight = barChartHeight - 3;
-  int barWidth = (int) (5*scrollBar.getPos());
   float barHeight = 0;
- 
+  
+void drawBarChart(){
   barChart.beginDraw();
+  //selecting the values and store
+
+  int barWidth = (int) (5*scrollBar.getPos());
+
+  barChart.background(110, 111, 150);
   count +=1;
   if (count >= maxNb){
     count = 0;
@@ -60,6 +62,8 @@ void drawBarChart(){
      currScore = barChartValues.get(i);
    }
    barHeight = currScore* maxBarHeight/playerMax;
+   barChart.noStroke();
+   barChart.fill(130, 90, 50);
    barChart.rect(i*barWidth, maxBarHeight - barHeight, barWidth, barHeight);
  }
   barChart.endDraw();
