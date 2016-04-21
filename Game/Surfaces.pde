@@ -25,11 +25,12 @@ void drawTopView(){
 void drawScoreBoard(){
   scoreBoard.beginDraw(); 
   scoreBoard.background(110, 111, 150);
-  scoreBoard.stroke(255);
   pushMatrix();
   scoreBoard.noFill();
+  scoreBoard.stroke(255);
+  scoreBoard.strokeWeight(3);
   scoreBoard.rect(0,0, scoreBoardSize, scoreBoardSize);
-  scoreBoard.text("Total Score:\n" + score + "\nvelocity: \n" + round2(ball.velocity.mag()), 3, border + 5);
+  scoreBoard.text("Total Score:\n" + round2(score) + "\nvelocity: \n" + round2(ball.velocity.mag()), 3, border + 5);
   popMatrix();
   scoreBoard.endDraw();
 }

@@ -1,4 +1,5 @@
 void mouseDragged(){
+ if(mouseY < height- bottomSquareHeight){
    valueZ += (mouseX- pmouseX) *change;
    valueX += (mouseY- pmouseY) *change;
    if(valueX < 0) {
@@ -12,6 +13,7 @@ void mouseDragged(){
   }
   angleX = map(valueX, 0, height, PI/6, -PI/6);
   angleZ = map(valueZ, 0 , width, -PI/6, PI/6);
+ }
 }
 
 void mouseWheel(MouseEvent event) {

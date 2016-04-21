@@ -39,13 +39,13 @@ void setup() {
   scoreBoard = createGraphics(scoreBoardSize, scoreBoardSize, P2D);
   barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
   barChart = createGraphics(barChartWidth, barChartHeight, P2D);
+  scrollBar = new HScrollbar(3*border + topViewSize + scoreBoardSize , bottomSquareHeight - 2*border, barChartWidth, border);
   pushMatrix();
   translate(width/2, height/2, 0);
   valueX = width/2.0;
   valueZ = height/2.0;
   popMatrix();
-  scrollBar = new HScrollbar(3*border + topViewSize + scoreBoardSize, height -2*border, barChartWidth, border);
-  
+
 }
 
 void draw() {
@@ -65,11 +65,10 @@ void draw() {
     image(scoreBoard, 2*border + topViewSize, border);
     drawBarChart();
     image(barChart, 3*border + topViewSize + scoreBoardSize, border);
-    popMatrix();
-    if(mouseY > height - bottomSquareHeight) {
-      scrollBar.update();
-    }
+    scrollBar.update();
     scrollBar.display();
+    popMatrix();
+    
     
     pushMatrix();
     rotateX(angleX);
@@ -87,7 +86,9 @@ void draw() {
     ball.display();
     popMatrix();
     popMatrix();
+    
   } else {
+    background(135, 7, 40);
     box(boxX, boxZ, boxY);
     for(int i = 0; i < cylinders.size(); i++){
       fill(250, 160,25);

@@ -67,7 +67,7 @@ class HScrollbar {
   */
   boolean isMouseOver() {
     if (mouseX > xPosition && mouseX < xPosition+barWidth &&
-      mouseY > yPosition && mouseY < yPosition+barHeight) {
+      mouseY > yPosition+(height - bottomSquareHeight) && mouseY < yPosition+barHeight+(height - bottomSquareHeight)) {
       return true;
     }
     else {
