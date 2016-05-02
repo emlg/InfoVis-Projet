@@ -1,4 +1,4 @@
-PImage binary(float threshold){
+PImage binary(PImage img, float threshold){
   PImage result = createImage(img.width, img.height, RGB);
   for(int i = 0; i < img.width * img.height; i++){
     if(brightness(img.pixels[i]) > threshold)
