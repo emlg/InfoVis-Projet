@@ -66,7 +66,7 @@ PImage sobel(PImage img) {
   
   for (int y = 2; y < img.height - 2; y++) { // Skip top and bottom edges
     for (int x = 2; x < img.width - 2; x++) { // Skip left and right
-      if (buffer[y * img.width + x] > (int)(max * 0.4f)) { // 30% of the max
+      if (buffer[y * img.width + x] > (int)(max * 0.4f)) { // 40% of the max
         result.pixels[y * img.width + x] = color(255);
       } else {
         result.pixels[y * img.width + x] = color(0);

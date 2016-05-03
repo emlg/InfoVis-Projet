@@ -3,15 +3,22 @@ Capture cam;*/
 PImage img;
 
 PImage result;
+ArrayList<PVector> lines;
+ArrayList<PVector> corners;
 HScrollBar hueBar1, hueBar2;
 
 void settings() {
   size(800, 600);
-  //size(640, 480);
+  /*println("Hello");
+  size(320, 240);*/
 }
 
 void setup() {
+    
+  /*cam = new Capture(this, "FaceTime HD Camera");
+  cam.start();*/
   /*String[] cameras = Capture.list();
+  println(cameras[0]);
   if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
@@ -20,12 +27,12 @@ void setup() {
     for (int i = 0; i < cameras.length; i++) {
       println(cameras[i]);
     }
-    cam = new Capture(this, cameras[0]);
-    cam.start();
+    
+    
   }*/
   hueBar1 = new HScrollBar(0, 580, 800, 20);
   hueBar2 = new HScrollBar(0, 560, 800, 20);
-  img = loadImage("board1.jpg");
+  img = loadImage("board4.jpg");
   result = createImage(width, height, RGB);
 }
 
@@ -38,11 +45,17 @@ void draw() {
    hueBar2.display(); hueBar2.update();*/
   /*if (cam.available() == true) {
     cam.read();
-  }
-  img = cam.get();
-  image(img, 0, 0);*/
-  hueMap(result,  0.4615385, 0.5307692);
+  }*/
+  //img = cam.get();
+  //image(cam, 0, 0);
+  result = brightnessMap(img, 0.2, 0.6);
+  result = saturationMap(result, 0.5, 1);
+  result = hueMap(result,  0.46, 0.53);
+  
+  //image(result, 0 , 0);
+  
   result = sobel(convolute(binary(result, 15.f)));
-  image(result, 0, 0);
-  hough(result);
+  image(img, 0, 0);
+  lines = hough(result, 4);
+  corners = getIntersections(lines);
 }
