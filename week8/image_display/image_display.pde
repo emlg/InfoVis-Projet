@@ -5,6 +5,14 @@ Capture cam;
 PImage img, result;
 HScrollBar hueBar1, hueBar2;
 
+float discretizationStepsPhi;
+float discretizationStepsR;
+int phiDim;
+float[] tabSin;
+float[] tabCos;
+float ang;
+float inverseR;
+
 void settings() {
   size(800, 600);
   //size(640, 480);
@@ -13,7 +21,7 @@ void settings() {
 void setup() {
   hueBar1 = new HScrollBar(0, 580, 800, 20);
   hueBar2 = new HScrollBar(0, 560, 800, 20);
-  img = loadImage("board2.jpg");
+  img = loadImage("board3.jpg");
   result = createImage(width, height, RGB);
 
   /*String[] cameras = Capture.list();
@@ -28,6 +36,23 @@ void setup() {
    cam = new Capture(this, cameras[0]);
    cam.start();
    }*/
+   discretizationStepsPhi = 0.06f;
+discretizationStepsR = 2.5f;
+
+// dimensions of the accumulator
+ phiDim = (int) (Math.PI / discretizationStepsPhi);
+// pre-compute the sin and cos values
+tabSin = new float[phiDim];
+tabCos = new float[phiDim];
+ang = 0;
+inverseR = 1.f / discretizationStepsR;
+
+for (int accPhi = 0; accPhi < phiDim; ang += discretizationStepsPhi, accPhi++) {
+  // we can also pre-multiply by (1/discretizationStepsR) since we need it in the Hough loop
+  tabSin[accPhi] = (float) (Math.sin(ang) * inverseR);
+  tabCos[accPhi] = (float) (Math.cos(ang) * inverseR);
+}
+
 }
 
 void draw() {
@@ -40,16 +65,14 @@ void draw() {
    hueBar1.display(); hueBar1.update();
    hueBar2.display(); hueBar2.update();*/
 
-  result = hueMap(brightnessMap(saturationMap(img, 0.5, 1), 0.2, 0.6), 0.46, 0.53);
-  //result = saturationMap(brightnessMap(hueMap(img, 0.46, 0.53), 0.2, 0.6), 0.5, 1);
-  //image(result, 0, 0);
+  result = saturationMap(brightnessMap(hueMap(img, 0.2, 0.8), 0, 0.5), 0, 0.5);
+  image(result, 0, 0);
   result = sobel(convolute(binary(result, 15.f)));
-  image(img, 0, 0);
-
   
   List<PVector> lines = hough(result, 6);
   List<int[]> quads = filterQuads(lines);
 
+  //List<PVector> inter = getIntersections(lines);
   for (int[] quad : quads) {
     PVector l1 = lines.get(quad[0]);
     PVector l2 = lines.get(quad[1]);

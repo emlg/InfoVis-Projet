@@ -3,6 +3,8 @@ PVector getIntersection(PVector line1, PVector line2) {
   float x = ((line2.x * sin(line1.y)) - (line1.x * sin(line2.y))) / d;
   float y = (- (line2.x * cos(line1.y)) + (line1.x * cos(line2.y))) / d;
   PVector intersection = new PVector(x, y);
+  fill(255, 128, 0);
+  ellipse(intersection.x, intersection.y, 10, 10);
   return intersection;
 }
 

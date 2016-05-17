@@ -1,11 +1,5 @@
 ArrayList<PVector> hough(PImage edgeImg, int nLines) {
-  float discretizationStepsPhi = 0.06f;
-  float discretizationStepsR = 2.5f;
-
-  // dimensions of the accumulator
-  int phiDim = (int) (Math.PI / discretizationStepsPhi);
   int rDim = (int) (((edgeImg.width + edgeImg.height) * 2 + 1) / discretizationStepsR);
-
   // our accumulator (with a 1 pix margin around)
   int[] accumulator = new int[(phiDim + 2) * (rDim + 2)];
 
@@ -26,13 +20,14 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
         // accumulator, and increment accordingly the accumulator.
         // Be careful: r may be negative, so you may want to center onto
         // the accumulator with something like: r += (rDim - 1) / 2
-        for (float phi = 0; phi < Math.PI; phi +=discretizationStepsPhi) {
-          float rAcc = x * cos(phi) + y * sin(phi);
+        ang = 0;
+        for (int phi = 0; phi < phiDim; ang += discretizationStepsPhi, phi ++) {
+          float rAcc = x * tabCos[phi] + y * tabSin[phi];
           while (rAcc<0) {
             rAcc += (rDim - 1) / 2;
           }
-          int indexR = Math.round((rAcc / discretizationStepsR)) + (rDim - 1) / 2;
-          int indexPhi = Math.round(phi / discretizationStepsPhi + 1);
+          int indexR = Math.round(rAcc) + (rDim - 1) / 2;
+          int indexPhi = Math.round(ang / discretizationStepsPhi + 1);
           accumulator[indexPhi *(rDim+2) + 1 + indexR] += 1;
         }
       }
@@ -42,8 +37,8 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   PImage houghImg = createImage(rDim + 2, phiDim + 2, ALPHA);
   for (int i = 0; i < accumulator.length; i++) {
     /*if (accumulator[i] > minVotes) {
-      bestCandidates.add(i);
-    }*/
+     bestCandidates.add(i);
+     }*/
     houghImg.pixels[i] = color(min(255, accumulator[i]));
   }
 
@@ -93,9 +88,9 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
     int accR = bestCandidates.get(idx) - (accPhi + 1) * (rDim + 2) - 1;
     float r = (accR - (rDim - 1) * 0.5f) * discretizationStepsR;
     float phi = accPhi * discretizationStepsPhi;
-    
+
     result.add(new PVector(r, phi));
-    
+
     // Cartesian equation of a line: y = ax + b
     // in polar, y = (-cos(phi)/sin(phi))x + (r/sin(phi))
     // => y = 0 : x = r / cos(phi)
@@ -129,7 +124,7 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
         line(x2, y2, x3, y3);
     }
   }
-  
+
   return result;
 }
 
