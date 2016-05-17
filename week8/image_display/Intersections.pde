@@ -1,18 +1,49 @@
-ArrayList<PVector> getIntersections(ArrayList<PVector> lines) {
+PVector getIntersection(PVector line1, PVector line2) {
+  float d = (cos(line2.y) * sin(line1.y)) - (cos(line1.y) * sin(line2.y));
+  float x = ((line2.x * sin(line1.y)) - (line1.x * sin(line2.y))) / d;
+  float y = (- (line2.x * cos(line1.y)) + (line1.x * cos(line2.y))) / d;
+  PVector intersection = new PVector(x, y);
+  return intersection;
+}
+
+
+ArrayList<PVector> getIntersections(List<PVector> lines) {
   ArrayList<PVector> intersections = new ArrayList<PVector>();
   for (int i = 0; i < lines.size() - 1; i++) {
     PVector line1 = lines.get(i);
     for (int j = i + 1; j < lines.size(); j++) {
       PVector line2 = lines.get(j);
-      // compute the intersection and add it to ’intersections’
-      // draw the intersection
-      float d = cos(line2.y)*sin(line1.y) - cos(line1.y)*sin(line2.y);
-      float x = (line2.x*sin(line1.y) - line1.x*sin(line2.y))/d;
-      float y = (-line2.x*cos(line1.y) + line1.x*cos(line2.y))/d;
-      intersections.add(new PVector(x,y));
+      PVector intersection = getIntersection(line1, line2);
+      intersections.add(intersection);
       fill(255, 128, 0);
-      ellipse(x, y, 10, 10);
+      ellipse(intersection.x, intersection.y, 10, 10);
     }
   }
   return intersections;
+}
+
+
+List<int[]> filterQuads(List<PVector> lines){
+  QuadGraph graph = new QuadGraph();
+  graph.build(lines, img.width, img.height);
+  List<int[]> quads = graph.findCycles();
+  List<int[]> remainingQuads = new ArrayList<int[]>();
+  
+  for (int[] quad : quads) {
+    PVector l1 = lines.get(quad[0]);
+    PVector l2 = lines.get(quad[1]);
+    PVector l3 = lines.get(quad[2]);
+    PVector l4 = lines.get(quad[3]);
+
+    PVector c12 = getIntersection(l1, l2);
+    PVector c23 = getIntersection(l2, l3);
+    PVector c34 = getIntersection(l3, l4);
+    PVector c41 = getIntersection(l4, l1);
+    
+    if(graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)){
+       remainingQuads.add(quad); 
+    }
+  }
+  
+  return remainingQuads;
 }

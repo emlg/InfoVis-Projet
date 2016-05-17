@@ -87,7 +87,7 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   houghImg.resize(800, 600);
   houghImg.updatePixels();
 
-  for (int idx = 0; idx < nLines; idx++) {
+  for (int idx = 0; idx < min(nLines, bestCandidates.size()); idx++) {
     // first, compute back the (r, phi) polar coordinates:
     int accPhi = (int) (bestCandidates.get(idx) / (rDim + 2)) - 1;
     int accR = bestCandidates.get(idx) - (accPhi + 1) * (rDim + 2) - 1;
