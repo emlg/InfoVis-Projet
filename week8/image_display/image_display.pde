@@ -3,11 +3,9 @@ import java.util.*;
 
 Capture cam;
 PImage img, result;
+PImage houghImg;
 HScrollBar hueBar1, hueBar2;
 
-float discretizationStepsPhi;
-float discretizationStepsR;
-int phiDim;
 float[] tabSin;
 float[] tabCos;
 float ang;
@@ -21,7 +19,7 @@ void settings() {
 void setup() {
   hueBar1 = new HScrollBar(0, 580, 800, 20);
   hueBar2 = new HScrollBar(0, 560, 800, 20);
-  img = loadImage("board3.jpg");
+  img = loadImage("board4.jpg");
   result = createImage(width, height, RGB);
 
   /*String[] cameras = Capture.list();
@@ -37,7 +35,7 @@ void setup() {
    cam.start();
    }*/
    discretizationStepsPhi = 0.06f;
-discretizationStepsR = 2.5f;
+  discretizationStepsR = 2.5f;
 
 // dimensions of the accumulator
  phiDim = (int) (Math.PI / discretizationStepsPhi);
@@ -65,31 +63,16 @@ void draw() {
    hueBar1.display(); hueBar1.update();
    hueBar2.display(); hueBar2.update();*/
 
-  result = saturationMap(brightnessMap(hueMap(img, 0.2, 0.8), 0, 0.5), 0, 0.5);
-  image(result, 0, 0);
-  result = sobel(convolute(binary(result, 15.f)));
-  
-  List<PVector> lines = hough(result, 6);
-  List<int[]> quads = filterQuads(lines);
+    result = saturationMap(brightnessMap(hueMap(img, 96, 140), 38, 137), 116, 255);
+  result = convolute(result);
+  result = brightnessMap(result, 0, 153);
+  result = sobel(result);
+  List<PVector> lines = hough(result, 4);
 
-  //List<PVector> inter = getIntersections(lines);
-  for (int[] quad : quads) {
-    PVector l1 = lines.get(quad[0]);
-    PVector l2 = lines.get(quad[1]);
-    PVector l3 = lines.get(quad[2]);
-    PVector l4 = lines.get(quad[3]);
-
-    PVector c12 = getIntersection(l1, l2);
-    PVector c23 = getIntersection(l2, l3);
-    PVector c34 = getIntersection(l3, l4);
-    PVector c41 = getIntersection(l4, l1);
-    // Choose a random, semi-transparent colour
-    Random random = new Random();
-    fill(color(min(255, random.nextInt(300)), 
-      min(255, random.nextInt(300)), 
-      min(255, random.nextInt(300)), 50));
-    quad(c12.x, c12.y, c23.x, c23.y, c34.x, c34.y, c41.x, c41.y);
-  }
+  image(img, 0, 0);
+ 
+  displayQuads(lines);
+  getIntersections(lines);
 
   /*if (cam.available())
    cam.read();

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 class QuadGraph {
   List<int[]> cycles = new ArrayList<int[]>();
+  List<int[]> quads = new ArrayList<int[]>();
+
   int[][] graph;
 
   void build(List<PVector> lines, int width, int height) {
@@ -58,6 +60,14 @@ class QuadGraph {
         findNewCycles(new int[] {graph[i][j]});
       }
     }
+    
+    quads.clear();
+    for(int i =0; i <cycles.size(); i++){
+      if(cycles.get(i).length == 4) {
+        quads.add(cycles.get(i));
+      }
+    }
+    
     /*for (int[] cy : cycles) {
       String s = "" + cy[0];
       for (int i = 1; i < cy.length; i++) {
@@ -65,7 +75,7 @@ class QuadGraph {
       }
       System.out.println(s);
     }*/
-    return cycles;
+    return quads;
   }
 
   void findNewCycles(int[] path)
@@ -252,7 +262,7 @@ class QuadGraph {
 
     boolean valid = (area < max_area && area > min_area);
 
-    //if (!valid) System.out.println("Area out of range");
+    if (!valid) System.out.println("Area out of range");
 
     return valid;
   }
@@ -278,7 +288,7 @@ class QuadGraph {
     if (cos1 < min_cos && cos2 < min_cos && cos3 < min_cos && cos4 < min_cos)
       return true;
     else {
-      //System.out.println("Flat quad");
+      System.out.println("Flat quad");
       return false;
     }
   }
