@@ -78,6 +78,7 @@ class Mover {
         n = n.mult(2*tmpV.dot(n));
         velocity = tmpV.sub(n);
         location = tmpL.add(velocity);
+        cylinders.remove(i);
       }
     }
     

@@ -11,6 +11,9 @@ float[] tabCos;
 float ang;
 float inverseR;
 
+List<PVector> corners;
+TwoDThreeD converter;
+
 void settings() {
   size(800, 600);
   //size(640, 480);
@@ -21,6 +24,7 @@ void setup() {
   hueBar2 = new HScrollBar(0, 560, 800, 20);
   img = loadImage("board4.jpg");
   result = createImage(width, height, RGB);
+  converter = new TwoDThreeD(width, height);
 
   /*String[] cameras = Capture.list();
    if (cameras.length == 0) {
@@ -72,7 +76,10 @@ void draw() {
   image(img, 0, 0);
  
   displayQuads(lines);
-  getIntersections(lines);
+  corners = getIntersections(lines);
+  PVector angles = converter.get3DRotations(sortCorners(corners));
+  println("rx :  " + angles.x + " ry : " + angles.y +" rz : " + angles.z ); 
+  
 
   /*if (cam.available())
    cam.read();
