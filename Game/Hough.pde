@@ -100,8 +100,8 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
     int x2 = edgeImg.width, y2 = (int) (-cos(phi) / sin(phi) * x2 + r / sin(phi));
     int y3 = edgeImg.width, x3 = (int) (-(y3 - r / sin(phi)) * (sin(phi) / cos(phi)));
 
-    stroke(204, 102, 0);
-    if (y0 > 0) {
+    //stroke(204, 102, 0);
+    /*if (y0 > 0) {
       if (x1 > 0)
         line(x0, y0, x1, y1);
       else if (y2 > 0)
@@ -116,7 +116,7 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
           line(x1, y1, x3, y3);
       } else
         line(x2, y2, x3, y3);
-    }
+    }*/
   }
   return detectedLines;
 }

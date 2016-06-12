@@ -1,7 +1,6 @@
 void settings() {
   size(500, 500, P3D);
 }
-//dimensions de la box
 float boxX = 100;
 float boxY = 10;
 float boxZ = 100;
@@ -50,27 +49,26 @@ void setup() {
   imgproc = new ImageProcessing();
   String []args = {"Image processing window"};
   PApplet.runSketch(args, imgproc);
-  //...
-
 }
 
 void draw() {
-    PVector rot = imgproc.getRotation();
+  PVector rot = imgproc.getRotation();
   // where getRotation could be a getter
   //for the rotation angles you computed previously
-  
-  if(rot == null) return;
-  
-  angleX = min(max( -rot.x, -PI/3), PI/3);
-  angleZ = min(max( -rot.y, -PI/3), PI/3);
-  
+  if (rot == null) {
+    angleX = 0;
+    angleZ = 0;
+  } else {
+    angleX = min(max( -rot.x, -PI/6), PI/6);
+    angleZ = min(max( -rot.y, -PI/6), PI/6);
+  }
+
   background(200);
   lights();
   translate(width/2, height/2, 0);
-  fill(150);
-
   if (!shiftMode) {
-    /*pushMatrix();
+
+    pushMatrix();
     translate(-width/2, height/2 -bottomSquareHeight, 0);
     drawBottomSquare();
     image(bottomSquare, 0, 0);
@@ -82,12 +80,13 @@ void draw() {
     image(barChart, 3*border + topViewSize + scoreBoardSize, border);
     scrollBar.update();
     scrollBar.display();
-    popMatrix();*/
+    popMatrix();
 
 
     pushMatrix();
     rotateX(angleX - PI/2);
     rotateZ(angleZ);
+    fill(150);
     box(boxX, boxY, boxZ);   
     for (int i = 0; i < cylinders.size(); i++) {
       fill(250, 160, 25);
@@ -103,6 +102,7 @@ void draw() {
     popMatrix();
   } else {
     background(135, 7, 40);
+    fill(150);
     box(boxX, boxZ, boxY);
     for (int i = 0; i < cylinders.size(); i++) {
       fill(250, 160, 25);

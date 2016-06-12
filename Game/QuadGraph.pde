@@ -61,12 +61,12 @@ class QuadGraph {
       }
     }
 
-    /*quads.clear();
+    quads.clear();
     for (int i =0; i <cycles.size(); i++) {
       if (cycles.get(i).length == 4) {
         quads.add(cycles.get(i));
       }
-    }*/
+    }
 
     /*for (int[] cy : cycles) {
      String s = "" + cy[0];
@@ -75,7 +75,7 @@ class QuadGraph {
      }
      System.out.println(s);
      }*/
-    return cycles;
+    return quads;
   }
 
   void findNewCycles(int[] path)

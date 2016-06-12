@@ -14,8 +14,8 @@ ArrayList<PVector> getIntersections(List<PVector> lines) {
       PVector intersection = getIntersection(line1, line2);
       intersections.add(intersection);
       
-      fill(255, 128,0);
-      ellipse(intersection.x, intersection.y, 10,10);
+      //fill(255, 128,0);
+      //ellipse(intersection.x, intersection.y, 10,10);
     }
   }
   return intersections;
@@ -38,10 +38,7 @@ void displayQuads(List<PVector> lines){
     PVector c41 = getIntersection(l4, l1);
     
     if(graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)&& graph.validArea(c12,c23,c34,c41,550000,100000)){
-      Random random = new Random();
-    fill(color(min(255, random.nextInt(300)), 
-      min(255, random.nextInt(300)), 
-      min(255, random.nextInt(300)), 50));
+    fill(0);
     quad(c12.x, c12.y, c23.x, c23.y, c34.x, c34.y, c41.x, c41.y);
     }
   }
