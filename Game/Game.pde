@@ -1,5 +1,5 @@
 void settings() {
-  size(500, 500, P3D);
+  size(500 , 500, P3D);
 }
 float boxX = 100;
 float boxY = 10;
@@ -30,8 +30,15 @@ int barChartWidth;
 
 HScrollBar scrollBar;
 ImageProcessing imgproc;
+PImage sVid;
+PImage sDetect;
 
 void setup() {
+  //frameRate(10);
+  imgproc = new ImageProcessing();
+  String []args = {"Image processing window"};
+  PApplet.runSketch(args, imgproc);
+  
   noStroke();
   ball = new Mover();
   bottomSquare = createGraphics(width, bottomSquareHeight, P2D);
@@ -45,16 +52,14 @@ void setup() {
   valueX = width/2.0;
   valueZ = height/2.0;
   popMatrix();
+  imgproc.setupIP();
 
-  imgproc = new ImageProcessing();
-  String []args = {"Image processing window"};
-  PApplet.runSketch(args, imgproc);
 }
 
 void draw() {
   PVector rot = imgproc.getRotation();
-  // where getRotation could be a getter
-  //for the rotation angles you computed previously
+  // where getRotate would be a getter
+  //for the rotation anglerotcomputed previously
   if (rot == null) {
     angleX = 0;
     angleZ = 0;
@@ -65,9 +70,18 @@ void draw() {
 
   background(200);
   lights();
-  translate(width/2, height/2, 0);
-  if (!shiftMode) {
+    text("fps : " + frameRate, 10, 50);
 
+  
+  if (!shiftMode ) {
+    
+    sVid = vid.copy();
+    sVid.resize(64*2, 48*2);
+    image(sVid, 0, 0);
+    sDetect = detect.copy();
+    sDetect.resize(64*2, 48*2);
+    image(sDetect, 64*2 , 0);
+    translate(width/2, height/2, 0);
     pushMatrix();
     translate(-width/2, height/2 -bottomSquareHeight, 0);
     drawBottomSquare();
@@ -101,6 +115,7 @@ void draw() {
     popMatrix();
     popMatrix();
   } else {
+    translate(width/2, height/2, 0);
     background(135, 7, 40);
     fill(150);
     box(boxX, boxZ, boxY);
@@ -110,4 +125,8 @@ void draw() {
       newCylinder.display(cylinders.get(i).x -width/2, cylinders.get(i).y - height/2, boxY/2);
     }
   }
+ 
+  
+       
+  
 }

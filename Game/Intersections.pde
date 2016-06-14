@@ -21,9 +21,9 @@ ArrayList<PVector> getIntersections(List<PVector> lines) {
   return intersections;
 }
 
-void displayQuads(List<PVector> lines){
+/*void displayQuads(List<PVector> lines){
   QuadGraph graph = new QuadGraph();
-  graph.build(lines, imgproc.img.width, imgproc.img.height);
+  graph.build(lines, img.width, img.height);
   List<int[]> quads = graph.findCycles();
   
   for (int[] quad : quads) {
@@ -43,4 +43,4 @@ void displayQuads(List<PVector> lines){
     }
   }
   
-}
+}*/

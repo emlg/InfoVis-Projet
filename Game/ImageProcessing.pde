@@ -2,11 +2,10 @@ import processing.video.*;
 import java.util.*;
 
 Boolean isPaused = false;
-  Movie cam;
+Movie cam;
+PImage vid;
+PImage detect;
 class ImageProcessing extends PApplet {
-
-  PImage img;
-
 
   float[] tabSin;
   float[] tabCos;
@@ -17,19 +16,10 @@ class ImageProcessing extends PApplet {
   TwoDThreeD converter;
   PVector angles;
 
-  public void mouseClicked() {
-    if (!isPaused) {
-      isPaused = true;
-    } else {
-      isPaused = false;
-    }
-  }
-
   void settings() {
-    size(640, 480);
   }
 
-  void setup() {
+  void setupIP() {
     cam = new Movie(this, "/Users/emma/Cours/Sem4/Informatique visuelle/InfoVis-Projet/Game/testVideo.mp4");
     cam.loop();
     //img = loadImage("/Users/emma/Cours/Sem4/Informatique visuelle/InfoVis-Projet/Game/data/board1.jpg");
@@ -43,32 +33,32 @@ class ImageProcessing extends PApplet {
     System.exit(0);
   }
 
-  void draw() {
+  void computeAngles() {
 
     if (cam.available()) {
       cam.read();
-      img = cam.get();
+      vid = cam.get();
 
-      if (img == null) {
+      if (vid == null) {
         return;
       }
     } else {
       return;
     }
   
-      image(img, 0, 0);
+      image(vid, 0, 0);
 
-      img = saturationMap(brightnessMap(hueMap(img, 50, 130), 5, 180), 120, 255);
-      img = convolute(img);
-      img = brightnessMap(img, 100, 255);
-      img = sobel(img);
-      List<PVector> lines = hough(img, 5);
+      detect = saturationMap(brightnessMap(hueMap(vid, 50, 130), 50, 180), 120, 255);
+      detect = convolute(detect);
+      detect = brightnessMap(detect, 100, 255);
+      detect = sobel(detect);
+      List<PVector> lines = hough(detect, 5);
 
       QuadGraph quadGraph = new QuadGraph();
-      quadGraph.build(lines, img.width, img.height);
+      quadGraph.build(lines, detect.width, detect.height);
       List<int[]> quads = quadGraph.findCycles();
-      float min_area = img.width * img.height / 10;
-      float max_area = img.width * img.height * 9/10;
+      float min_area = detect.width *detect.height / 10;
+      float max_area = detect.width * detect.height * 9/10;
 
       PVector[] corners = new PVector[4];
       Boolean quadFound = false;
@@ -99,33 +89,22 @@ class ImageProcessing extends PApplet {
       if (!quadFound)
         return;
 
-      double dist = Double.MAX_VALUE;
-      double newDist = 0;
-      double[][] imgCorners = {{0, 0}, {img.width, 0}, {img.width, img.height}, {0, img.height}};
+
+      double[][] imgCorners = {{0, 0}, {detect.width, 0}, {detect.width, detect.height}, {0, detect.height}};
 
       List<PVector> output = new ArrayList<PVector>();
       for (int j = 0; j < imgCorners.length; j++) {
         output.add(corners[j]);
-        for (int i = 0; i < corners.length; i++) {
-          newDist = Math.sqrt(Math.pow(corners[i].x - imgCorners[j][0], 2) + Math.pow(corners[i].y - imgCorners[j][1], 2));
-          if (newDist < dist) {
-            dist = newDist;
-            output.set(j, corners[i]);
-          }
-        }
-        newDist = 0;
-        dist = Double.MAX_VALUE;
       }
 
-      quad(output.get(0).x, output.get(0).y, output.get(1).x, output.get(1).y, output.get(2).x, output.get(2).y, output.get(3).x, output.get(3).y);
+      //quad(output.get(0).x, output.get(0).y, output.get(1).x, output.get(1).y, output.get(2).x, output.get(2).y, output.get(3).x, output.get(3).y);
 
-      converter = new TwoDThreeD(img.width, img.height);
-      angles = converter.get3DRotations(output);
-      //println("rx : " + degrees(angles.x) + " ry : "+ degrees(angles.y) + " rz : " + degrees(angles.z));
-    
+      converter = new TwoDThreeD(detect.width, detect.height);
+      angles = converter.get3DRotations(quadGraph.sortCorners(output));    
   }
 
   PVector getRotation() {
+    computeAngles();
     return angles;
   }
 }

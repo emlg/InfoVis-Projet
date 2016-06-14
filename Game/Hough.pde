@@ -27,6 +27,18 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   int rDim = (int) (((edgeImg.width + edgeImg.height) * 2 + 1) / discretizationStepsR);
   int[] accumulator = new int[(phiDim + 2) * (rDim + 2)];
 
+// pre-compute the sin and cos values
+  float[] tabSin = new float[phiDim];
+  float[] tabCos = new float[phiDim];
+  float ang = 0;
+  float inverseR = 1.f / discretizationStepsR;
+  for (int accPhi = 0; accPhi < phiDim; ang += discretizationStepsPhi, accPhi++) {
+    // we can also pre-multiply by (1/discretizationStepsR) since we need it in the Hough loop
+    tabSin[accPhi] = (float) (Math.sin(ang) * inverseR);
+    tabCos[accPhi] = (float) (Math.cos(ang) * inverseR);
+  }
+
+
   // definition of line candidates
   for (int y = 0; y < edgeImg.height; y++)
     for (int x = 0; x < edgeImg.width; x++)
