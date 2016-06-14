@@ -6,7 +6,6 @@ PImage convolute(PImage img) {
     { 5, 9, 12, 9, 5 }, 
     { 3, 5, 9, 5, 3 }};
 
-  int n = 5;
   float weight = 20.f;
   PImage result = createImage(img.width, img.height, ALPHA);
 
@@ -34,8 +33,6 @@ PImage sobel(PImage img) {
                         { 1, 0, -1 }, 
                         { 0, 0, 0 } };
   PImage result = createImage(img.width, img.height, ALPHA);
-  int n = 3;
-
   // clear the image
   for (int i = 0; i < img.width * img.height; i++) {
     result.pixels[i] = color(0);

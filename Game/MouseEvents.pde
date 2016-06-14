@@ -1,21 +1,3 @@
-/*void mouseDragged(){
- if(mouseY < height- bottomSquareHeight){
-   valueZ += (mouseX- pmouseX) *change;
-   valueX += (mouseY- pmouseY) *change;
-   if(valueX < 0) {
-    valueX =0;
-  } else if (valueX > height) {
-    valueX = height;
-  } else if (valueZ <0){
-    valueZ = 0;
-  } else if (valueZ > width){
-    valueZ = width;
-  }
-  angleX = map(valueX, 0, height, PI/6, -PI/6);
-  angleZ = map(valueZ, 0 , width, -PI/6, PI/6);
- }
-}*/
-
 void mouseWheel(MouseEvent event) {
   change += event.getCount();
   change = change*0.1;

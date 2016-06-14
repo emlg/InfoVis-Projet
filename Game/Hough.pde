@@ -27,17 +27,6 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   int rDim = (int) (((edgeImg.width + edgeImg.height) * 2 + 1) / discretizationStepsR);
   int[] accumulator = new int[(phiDim + 2) * (rDim + 2)];
 
-// pre-compute the sin and cos values
-  float[] tabSin = new float[phiDim];
-  float[] tabCos = new float[phiDim];
-  float ang = 0;
-  float inverseR = 1.f / discretizationStepsR;
-  for (int accPhi = 0; accPhi < phiDim; ang += discretizationStepsPhi, accPhi++) {
-    // we can also pre-multiply by (1/discretizationStepsR) since we need it in the Hough loop
-    tabSin[accPhi] = (float) (Math.sin(ang) * inverseR);
-    tabCos[accPhi] = (float) (Math.cos(ang) * inverseR);
-  }
-
 
   // definition of line candidates
   for (int y = 0; y < edgeImg.height; y++)
@@ -93,10 +82,6 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
   }
 
   Collections.sort(bestCandidates, new HoughComparator(accumulator));
-  // You may want to resize the accumulator to make it easier to see:
-  houghImg.resize(400, 400);
-  houghImg.updatePixels();
-
 
   // plotting the lines on the picture
   for (int idx = 0; idx < min(nLines, bestCandidates.size()); idx++) {
@@ -106,29 +91,6 @@ ArrayList<PVector> hough(PImage edgeImg, int nLines) {
     float phi = accPhi * discretizationStepsPhi;
 
     detectedLines.add(new PVector(r, phi));
-
-    int x0 = 0, y0 = (int) (r / sin(phi));
-    int x1 = (int) (r / cos(phi)), y1 = 0;
-    int x2 = edgeImg.width, y2 = (int) (-cos(phi) / sin(phi) * x2 + r / sin(phi));
-    int y3 = edgeImg.width, x3 = (int) (-(y3 - r / sin(phi)) * (sin(phi) / cos(phi)));
-
-    //stroke(204, 102, 0);
-    /*if (y0 > 0) {
-      if (x1 > 0)
-        line(x0, y0, x1, y1);
-      else if (y2 > 0)
-        line(x0, y0, x2, y2);
-      else
-        line(x0, y0, x3, y3);
-    } else {
-      if (x1 > 0) {
-        if (y2 > 0)
-          line(x1, y1, x2, y2);
-        else
-          line(x1, y1, x3, y3);
-      } else
-        line(x2, y2, x3, y3);
-    }*/
   }
   return detectedLines;
 }

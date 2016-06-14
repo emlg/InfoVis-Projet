@@ -20,27 +20,3 @@ ArrayList<PVector> getIntersections(List<PVector> lines) {
   }
   return intersections;
 }
-
-/*void displayQuads(List<PVector> lines){
-  QuadGraph graph = new QuadGraph();
-  graph.build(lines, img.width, img.height);
-  List<int[]> quads = graph.findCycles();
-  
-  for (int[] quad : quads) {
-    PVector l1 = lines.get(quad[0]);
-    PVector l2 = lines.get(quad[1]);
-    PVector l3 = lines.get(quad[2]);
-    PVector l4 = lines.get(quad[3]);
-
-    PVector c12 = getIntersection(l1, l2);
-    PVector c23 = getIntersection(l2, l3);
-    PVector c34 = getIntersection(l3, l4);
-    PVector c41 = getIntersection(l4, l1);
-    
-    if(graph.isConvex(c12, c23, c34, c41) && graph.nonFlatQuad(c12, c23, c34, c41)&& graph.validArea(c12,c23,c34,c41,550000,100000)){
-    fill(0);
-    quad(c12.x, c12.y, c23.x, c23.y, c34.x, c34.y, c41.x, c41.y);
-    }
-  }
-  
-}*/
